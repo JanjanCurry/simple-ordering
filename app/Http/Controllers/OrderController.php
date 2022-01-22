@@ -35,7 +35,19 @@ class OrderController extends Controller
              $menu_list = MenuList::where('id', $all_menu_list[$i])->first();
              $sale_per_menu_list = $request->input('quantity' . $all_menu_list[$i]) * ($menu_list->price + $menu_list->tax);
              $total_sales = $total_sales + $sale_per_menu_list;
-        }   
+        }
+        if ($request->input('coupon') != "") {
+            if ($request->input('coupon') == "GO2018") {
+                 
+                 $total_sales = $total_sales - ($total_sales * .10);
+                   
+               } else {
+                
+                 return redirect('/')->with('error', 'Invalid Coupon Code' );
+ 
+            }  
+        }
+
        $order = Order::create([
         'total_sales' => $total_sales,
         ]);  
@@ -48,6 +60,8 @@ class OrderController extends Controller
             'quantity' => $request->input('quantity' . $all_menu_list[$i]),
             ]);   
         }
+         return redirect('/')->with('success', 'Order Saved Suceesfully' );
+
 
     }
 

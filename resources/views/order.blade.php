@@ -2,6 +2,17 @@
 @section('content')
 
 
+    @if ($message = Session::get('error'))
+        <div class="alert alert-danger">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
+
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
 <form action="/save_order" method="POST">
     @csrf
   
@@ -31,6 +42,9 @@
         </table>
         
         <div class="row">
+            <div class="col-md-3">
+                <input type="text" name="coupon" class="form-control" placeholder="Coupon Code">
+            </div>
             <div class="col-md-2">
                 <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
             </div>
